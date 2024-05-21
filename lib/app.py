@@ -11,7 +11,6 @@ class App:
     def __init__(self, host, port) -> None:
         self.host = host
         self.port = port
-        self.routes = dict()
         self.middlewares: list[Middleware] = []
         
     def start(self):
@@ -22,14 +21,6 @@ class App:
     
     def add_middleware(self, middleware):
         self.middlewares.append(middleware())
-    
-    def map_endpoint(self, path: str, route):
-        a = path.split("/")
-        while "" in a:
-            a.remove("")
-
-        path = "/".join(a)
-        self.routes[path] = route
 
     async def __handle_connection(self, conn: socket.socket):
         data = conn.recv(1024).decode()
